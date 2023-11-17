@@ -1,0 +1,9 @@
+name: TimeLabsBuilder
+version: '1.0-SNAPSHOT'
+main: org.cnits.timelabsbuilder.TimeLabsBuilder
+api-version: '1.19'
+commands:
+  timelabsbuilder:
+    description: Main command for the TimeLabsBuilder plugin
+    usage: /<command> <schematic|npc> [args]
+    aliases: [tb, timelabs]
