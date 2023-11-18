@@ -6,6 +6,7 @@ import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.cnits.timelabsbuilder.TimeLabsBuilder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,19 +15,21 @@ import java.io.IOException;
 import static net.citizensnpcs.api.CitizensAPI.getDataFolder;
 
 public class LoadSchematic {
-    public static ClipboardHolder loadSchematicToClipboard(String schematicName, Player player) {
-        // 'schematics' 폴더 경로 생성
-        File schematicsFolder = new File(getDataFolder(), "schematics");
+    private static TimeLabsBuilder plugin;
 
-        // 폴더가 존재하지 않으면 생성
+    public static void setPlugin(TimeLabsBuilder plugin) {
+        LoadSchematic.plugin = plugin;
+    }
+    public static ClipboardHolder loadSchematicToClipboard(String schematicName, Player player) {
+        File schematicsFolder = plugin.getWorldEditSchematicsFolder();
         if (!schematicsFolder.exists()) {
             schematicsFolder.mkdirs();
         }
 
-        // 스키매틱 파일 경로
-        File schematicFile = new File(schematicsFolder, schematicName + ".schematic");
+        // .schematic 및 .schem 확장자를 모두 확인
+        File schematicFile = findSchematicFile(schematicsFolder, schematicName);
 
-        if (!schematicFile.exists()) {
+        if (schematicFile == null) {
             player.sendMessage(ChatColor.RED + "Schematic file not found.");
             return null;
         }
@@ -41,5 +44,19 @@ public class LoadSchematic {
             player.sendMessage(ChatColor.RED + "Error loading schematic.");
             return null;
         }
+    }
+
+    private static File findSchematicFile(File folder, String schematicName) {
+        File schematicFile = new File(folder, schematicName + ".schematic");
+        if (schematicFile.exists()) {
+            return schematicFile;
+        }
+
+        schematicFile = new File(folder, schematicName + ".schem");
+        if (schematicFile.exists()) {
+            return schematicFile;
+        }
+
+        return null;
     }
 }
