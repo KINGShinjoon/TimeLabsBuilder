@@ -3,6 +3,7 @@ package org.cnits.timelabsbuilder;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.cnits.timelabsbuilder.API.BreakBuilding;
 import org.cnits.timelabsbuilder.API.GetList;
 import org.cnits.timelabsbuilder.API.LoadSchematic;
 import org.cnits.timelabsbuilder.Command.TimeLabsCommand;
@@ -21,6 +22,7 @@ public final class TimeLabsBuilder extends JavaPlugin {
             StartBuilding.setPlugin(this);
             GetList.setPlugin(this);
             LoadSchematic.setPlugin(this);
+            BreakBuilding.setPlugin(this);
             this.getCommand("timelabsbuilder").setExecutor(new TimeLabsCommand());
         }else{
             getLogger().severe("Dependencies not found, disabling this plugin");

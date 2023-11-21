@@ -12,7 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
-import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -75,6 +74,19 @@ public class StartBuilding {
                 material.name().contains("FENCE");
     }
 
+    private static Material convertToBukkitMaterial(String blockTypeName) {
+        // "minecraft:" 접두사 제거
+        if (blockTypeName.startsWith("minecraft:")) {
+            blockTypeName = blockTypeName.substring(10);
+        }
+
+        // 대문자로 변환 (Bukkit의 Material 열거형은 대문자)
+        blockTypeName = blockTypeName.toUpperCase();
+
+        // Material 매칭 시도
+        return Material.matchMaterial(blockTypeName);
+    }
+
     private static void processBlocks(Region region, Clipboard clipboard, BlockVector3 origin, World world, Location startLocation, Entity npc, long delay, boolean processSpecial) {
         for (int y = region.getMinimumPoint().getBlockY(); y <= region.getMaximumPoint().getBlockY(); y++) {
             for (BlockVector3 blockVector3 : region) {
@@ -82,8 +94,13 @@ public class StartBuilding {
                     try {
                         BlockStateHolder block = clipboard.getBlock(blockVector3);
                         String blockTypeName = block.getBlockType().getName();
-                        Material material = Material.matchMaterial(blockTypeName);
 
+                        Material material = convertToBukkitMaterial(blockTypeName);
+
+                        if (material == null) {
+                            plugin.getServer().getLogger().warning("No matching material for block type: " + blockTypeName);
+                            continue; // 해당 블록을 건너뜁니다.
+                        }
                         if (material != null && material != Material.AIR && isSpecialBlock(material) == processSpecial) {
                             BlockVector3 relativePosition = blockVector3.subtract(origin);
                             Location blockLocation = new Location(world, startLocation.getX() + relativePosition.getX(), startLocation.getY() + relativePosition.getY(), startLocation.getZ() + relativePosition.getZ());

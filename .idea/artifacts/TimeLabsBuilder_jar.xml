@@ -1,10 +1,8 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="TimeLabsBuilder:jar">
-    <output-path>$PROJECT_DIR$/../../Cultural/plugins</output-path>
+    <output-path>$USER_HOME$/OneDrive/바탕 화면/Cultural/plugins</output-path>
     <root id="archive" name="TimeLabsBuilder.jar">
       <element id="module-output" name="TimeLabsBuilder" />
-      <element id="extracted-dir" path="$USER_HOME$/OneDrive/바탕 화면/Cultural/plugins/[Utility] Citizens.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$USER_HOME$/OneDrive/바탕 화면/Cultural/plugins/FastAsyncWorldEdit-Bukkit-2.5.1-SNAPSHOT-339.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
