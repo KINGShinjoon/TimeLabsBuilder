@@ -17,7 +17,7 @@ public final class TimeLabsBuilder extends JavaPlugin {
     public void onEnable() {
         getLogger().info("TimeLabsBuilder has been enabled");
         getLogger().info("Creator : SJ (sj@cnitsstudio.com)");
-        getLogger().info("ver : 0.1.0");
+        getLogger().info("ver : 0.2.0");
         if(checkDependencies()){
             StartBuilding.setPlugin(this);
             GetList.setPlugin(this);
